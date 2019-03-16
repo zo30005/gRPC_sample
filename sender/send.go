@@ -10,12 +10,12 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func Send() {
+// Send is a function send message to Slack channel
+func Send(message string) {
 	envLoad()
 	name := "bot name"
-	text := "<!channel> test message"
+	text := "<!channel> " + message
 	channel := "slack-test"
-
 	jsonStr := `{"channel":"` + channel + `","username":"` + name + `","text":"` + text + `"}`
 
 	req, err := http.NewRequest(

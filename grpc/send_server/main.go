@@ -40,7 +40,7 @@ type server struct{}
 
 func (s *server) SendToSlack(ctx context.Context, in *pb.SendRequest) (*pb.SendReply, error) {
 	log.Printf("Received a message: %v", in.Message)
-	sender.Send()
+	sender.Send(in.Message)
 	return &pb.SendReply{Message: "Message sent successfully: " + in.Message}, nil
 }
 

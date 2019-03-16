@@ -20,8 +20,8 @@ package main
 
 import (
 	"context"
+	"flag"
 	"log"
-	"os"
 	"time"
 
 	pb "gRPC_sample/grpc/send"
@@ -30,8 +30,7 @@ import (
 )
 
 const (
-	address     = "localhost:50051"
-	defaultName = "hello world"
+	address = "localhost:50051"
 )
 
 func main() {
@@ -44,13 +43,11 @@ func main() {
 	c := pb.NewSenderClient(conn)
 
 	// Contact the server and print out its response.
-	message := defaultName
-	if len(os.Args) > 1 {
-		message = os.Args[1]
-	}
+
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	r, err := c.SendToSlack(ctx, &pb.SendRequest{Message: message})
+	flag.Parse()
+	r, err := c.SendToSlack(ctx, &pb.SendRequest{Message: flag.Arg(0)})
 	if err != nil {
 		log.Fatalf("could not send: %v", err)
 	}
